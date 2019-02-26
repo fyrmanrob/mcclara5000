@@ -1,0 +1,154 @@
+/*********************************************************************************************************************************
+CSS BEST PRACTICES
+1. Box (display, width, height, padding, margin, box-shadow, float, position, left, top)
+2. Border (border, border-radius)
+3. Background
+4. Text (font-size, font-weight, font-family, text-shadow, letter-spacing, text-transform)
+5. Other
+———————————————————————————————————
+SMACSS CATEGORIES
+1. Base Rules (Define default styles. Applied to HTML elements, NOT CLASSES-ONLY OR IDs-ONLY)
+2. Layout Rules (Divides page into major components: header, main, footer, sidebar, grid, etc.)
+3. Module Rules (Exists to be stand-alone. Only use Class names. Avoid IDs and HTML elements.)
+3a. Subclassing Modules (If module needs modified for an situation, subclass it. Ex: ‘.mod’ becomes ‘.mod-footer’)
+4. State Rules (Define how modules look when in a particular state like :hover, :active. Can be used with JS)
+5. Theme Rules (Define color scheme and typography. Theme-specific styles)
+***********************************************************************************************************************************/
+
+@import 'https://fonts.googleapis.com/css?family=Tangerine';
+
+/**********************
+Base Rules
+**********************/
+body, select, input, textarea {
+	font-size: 12px !important;
+}
+
+select, input, textarea {  
+ 	width: 200px;
+ 	height: 35px;
+ 	margin: 2.5px;
+	border-radius: 5px !important;
+	border: 1px solid #ccc;
+}
+
+input[type=text] {
+	padding: 5px !important;
+}
+
+ul {
+	list-style: none;
+	margin: 0px 0px 15px 0px !important;
+}
+
+textarea {
+	height: 50px;
+}
+
+button {
+	font-size: 14px;
+	margin: 5px 10px 0px 5px;
+	width: 160px !important;
+	height: 60px;
+	padding: 2px !important;
+	border-radius: 5px;
+}
+
+label {
+	width: auto;
+	min-width: 65px;
+	text-align: right;
+	font-size: 14px !important;	
+}
+
+/**********************
+Layout Rules
+**********************/
+#wpadminbar{
+	/*background-color: #e67300;*/
+	/*background-color: darkblue; */
+    height: auto;
+}
+
+.classWrapper {
+	width: 100%;
+}
+
+/*  NAVIGATION */
+.main-navigation, .main-navigation ul li {
+	background-color: #e67300;
+}
+
+.main-navigation .main-nav ul li a, .menu-toggle {
+	color: #000;
+}
+
+/**********************
+Module Rules
+**********************/
+.shortInput {
+	width: 70px !important;
+}
+
+.mediumInput {
+	width: 140px !important;
+}
+
+.longInput{
+	width: 340px !important;
+}
+
+.inside-article { 
+	padding: 5px !important;
+	min-height: 750px;
+}
+
+.green {
+	background-color: green;
+	color: white;
+}
+
+.yellow {
+	background-color: #f9ed00;
+	color: black;
+}
+
+.red {
+	background-color: #db0024;
+	color: white;
+}
+
+.black {
+	background-color: black;
+	color: white;
+}
+
+.blue {
+	background-color: blue;
+	color: white;
+}
+
+.triageRed {
+	background-color: red;
+	color: red;
+}
+
+.triageYellow {
+	background-color: yellow;
+	color: yellow;
+}
+
+.triageGreen {
+	background-color: green;
+	color: green;
+}
+
+/**********************
+State Rules
+**********************/
+
+/**********************
+Theme Rules
+**********************/
+
+

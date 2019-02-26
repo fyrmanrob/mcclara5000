@@ -1,0 +1,161 @@
+/*********************************************************************************************************************************
+CSS BEST PRACTICES
+1. Box (display, width, height, padding, margin, box-shadow, float, position, left, top)
+2. Border (border, border-radius)
+3. Background
+4. Text (font-size, font-weight, font-family, text-shadow, letter-spacing, text-transform)
+5. Other
+———————————————————————————————————
+SMACSS CATEGORIES
+1. Base Rules (Define default styles. Applied to HTML elements, NOT CLASSES-ONLY OR IDs-ONLY)
+2. Layout Rules (Divides page into major components: header, main, footer, sidebar, grid, etc.)
+3. Module Rules (Exists to be stand-alone. Only use Class names. Avoid IDs and HTML elements.)
+3a. Subclassing Modules (If module needs modified for an situation, subclass it. Ex: ‘.mod’ becomes ‘.mod-footer’)
+4. State Rules (Define how modules look when in a particular state like :hover, :active. Can be used with JS)
+5. Theme Rules (Define color scheme and typography. Theme-specific styles)
+***********************************************************************************************************************************/
+
+/**********************
+Base Rules
+**********************/
+
+
+/**********************
+Layout Rules
+**********************/
+.page_wrapper {
+	width: 100% !important;
+}
+
+div[id ^= "colNum"] {
+	width: 350px;
+	border: solid #ccc 1px;
+	background-color: #eee;
+	margin: 30px auto;
+}
+
+#allColumnsContent {
+	width: 100%;
+	margin: 0 auto;
+}
+
+#addColumn {
+	height: 40px !important;
+	width: auto !important;
+	padding: 0px 10px !important;
+}
+
+.add-column-button-wrapper {
+	margin-bottom: 30px;
+}
+
+.ra-column-container {
+	float: left;
+	margin-right: 10px;
+}
+
+.ra_btn {
+	width: 45px;
+	height: 45px;
+}
+
+.ra_add-del_btn {
+	display: inline-block !important;
+	width: 30px !important;
+	height: 30px;
+	margin-bottom: 10px !important;
+}
+
+.ra_input {
+	width: 125px;
+}
+
+.ra_select {
+	width: 115px;
+}
+
+.listTitle {
+	/*margin-bottom: 5px;*/
+	margin: 5px;
+	width: 100%;
+}
+
+.inp_title {
+	width: 100%;
+	text-align: center;
+	margin-bottom: 10px 2px;
+	vertical-align: middle;	
+}
+
+.vertArrows {
+	width: 15px;
+	height: 15px;
+	margin: 10px 0px 10px 7px;
+	-webkit-transform: rotate(90deg);
+	color: #ccc;
+}
+
+/* Gear Icon */
+.dashicons-admin-generic:before {
+	content: "\f107";
+	color: #e0e0d2;
+}
+
+/* Undo Icon */
+.dashicons-undo {
+	content: "\f171";
+	color: #e0e0d2;
+	display: inline-block;
+	width: 35px;
+	margin-top: 10px;
+}
+
+/* Notes Icon */
+.dashicons-welcome-write-blog {
+	content: "\f119"; 
+	color: #e0e0d2;
+	display: inline-block;
+	width: 35px;
+	margin-top: 10px;
+}
+
+/* Settings Icon */
+.settingsButton {
+	float: right;
+	margin-top: 20px;
+	padding-right: 10px;	
+}
+
+/**********************
+Module Rules
+**********************/
+.invalidStatusMsgBox {
+	padding-left: 60px;
+	color: red;
+	font-size: 16px;
+}
+
+/**********************
+State Rules
+**********************/
+.settingsButton:hover {
+	/*background: none;
+	width: 18px;
+	height: 24px;*/
+}
+
+
+/**********************
+Theme Rules
+**********************/
+
+
+
+
+
+
+
+
+
+
+

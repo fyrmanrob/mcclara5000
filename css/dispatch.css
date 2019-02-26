@@ -1,0 +1,54 @@
+/*********************************************************************************************************************************
+CSS BEST PRACTICES
+1. Box (display, width, height, padding, margin, box-shadow, float, position, left, top)
+2. Border (border, border-radius)
+3. Background
+4. Text (font-size, font-weight, font-family, text-shadow, letter-spacing, text-transform)
+5. Other
+———————————————————————————————————
+SMACSS CATEGORIES
+1. Base Rules (Define default styles. Applied to HTML elements, NOT CLASSES-ONLY OR IDs-ONLY)
+2. Layout Rules (Divides page into major components: header, main, footer, sidebar, grid, etc.)
+3. Module Rules (Exists to be stand-alone. Only use Class names. Avoid IDs and HTML elements.)
+3a. Subclassing Modules (If module needs modified for an situation, subclass it. Ex: ‘.mod’ becomes ‘.mod-footer’)
+4. State Rules (Define how modules look when in a particular state like :hover, :active. Can be used with JS)
+5. Theme Rules (Define color scheme and typography. Theme-specific styles)
+***********************************************************************************************************************************/
+
+/**********************
+Base Rules
+**********************/
+
+/**********************
+Layout Rules
+**********************/
+#clock {
+	font-size: 28px;
+	float: right;
+	margin: -90px 50px 0px 0px;
+}
+
+.dqLocNotesLabel {
+	margin-top: 7px;
+}
+
+/**********************
+Module Rules
+**********************/
+
+
+/**********************
+State Rules
+**********************/
+
+/**********************
+Theme Rules
+**********************/
+
+
+
+
+
+
+
+

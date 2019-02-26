@@ -1,0 +1,35 @@
+
+.ui-input-text {
+	display: inline-block;
+}
+
+.draggable {
+	width: 350px; 
+	height: auto !important; 
+	padding: 0.25em;
+	border: 1px lightgrey solid;
+	margin: 10px 10px 10px 0px;
+	float: left;
+}
+
+.sortable { 
+	list-style-type: none; 
+	margin: 2.5px 0px; 
+	padding: 0; 
+	/*width: 60%; */
+}
+
+.sortable li { 
+	margin: 0px 2px 5px 0px; 
+	padding: 8px 0px; 
+	font-size: 1.2em;
+	height: 1.5em; 
+}
+
+html>body .sortable li { 
+	height: 1.5em; line-height: 1.2em; 
+}
+
+.ui-state-highlight { 
+	height: 1.5em; line-height: 1.2em; 
+}

@@ -1,0 +1,12 @@
+/********************************************************************************
+						MEDIA QUERIES
+*********************************************************************************/
+
+/* iPhone 6+ Media Query */
+@media (min-width:376px) and (max-width:414px) {}
+
+/* iPad & iPad Mini Media Query */
+@media (min-width:768px) {}
+
+/*  Laptop and up */
+@media (min-width:1300px) {}
