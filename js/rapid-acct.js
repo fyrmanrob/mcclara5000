@@ -21,6 +21,7 @@ var colRowCnt = 0;
         // Create new Div with column ID number 
         var newColDiv = document.createElement( 'div' );
         newColDiv.id = "colNum" + colNum;
+        newColDiv.className = "ra-column-container";
         //newColDiv.className = "draggable ui-widget-content";
     
       // Establish starting Select ID number
@@ -46,7 +47,7 @@ var colRowCnt = 0;
         // Call function to hide the Del Row button
         hideDel( colNum );
 
-        // ******* Insert New Row into Database ******
+        // ******* Save New Row in Database ******
 
   }); // #addColumn
 
