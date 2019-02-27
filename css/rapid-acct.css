@@ -63,7 +63,7 @@ div[id ^= "colNum"] {
 	display: inline-block !important;
 	width: 30px !important;
 	height: 30px;
-	margin-bottom: 10px !important;
+	margin: 0 5px !important;
 }
 
 .ra_input {
@@ -71,11 +71,11 @@ div[id ^= "colNum"] {
 }
 
 .ra_select {
-	width: 115px;
+	width: 120px;
+	padding: 3px;
 }
 
 .listTitle {
-	/*margin-bottom: 5px;*/
 	margin: 5px;
 	width: 100%;
 }
