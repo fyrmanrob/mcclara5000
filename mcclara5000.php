@@ -17,6 +17,8 @@ require ( 'inc/status-changes.php' );
 		exit;
 	}
 
+/* GLOBAL VARIABLES */
+$options = array(); // Used for CRUD operations
 
 /*************************************
 //   Add CSS & JS Files
@@ -31,11 +33,13 @@ function rm_enqueue_scripts() {
          wp_enqueue_style( 'rm_media_queries_css', 	plugins_url( 'css/media-queries.css',__FILE__ ) );
          wp_enqueue_style( 'rm_fdic_buses_css', 	plugins_url( 'css/fdic-buses.css', 	__FILE__ ) );
     
-         wp_enqueue_script( 'rm_rapid_acct_js', plugins_url( 'js/rapid-acct.js', 	__FILE__ ), array( 'jquery' ), '', true );
-         wp_enqueue_script( 'rm_call_entry_js', plugins_url( 'js/call-entryt.js', 	__FILE__ ), array( 'jquery' ), '', true );
+        
+         wp_enqueue_script( 'rm_call_entry_js', plugins_url( 'js/call-entry.js', 	__FILE__ ), array( 'jquery' ), '', true );
          wp_enqueue_script( 'rm_tracking_js', 	plugins_url( 'js/tracking.js', 		__FILE__ ), array( 'jquery' ), '', true );
          wp_enqueue_script( 'rm_dispatch_js', 	plugins_url( 'js/dispatch.js',		__FILE__ ), array( 'jquery' ), '', true );
          wp_enqueue_script( 'rm_jquery_js', 	plugins_url( 'js/jquery.js',		__FILE__ ), array( 'jquery' ), '', true );
+
+         wp_localize_script( 'rm_rapid_acct_js', 'my_ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 }
 add_action( 'wp_enqueue_scripts', 'rm_enqueue_scripts' );
 
@@ -43,13 +47,13 @@ add_action( 'wp_enqueue_scripts', 'rm_enqueue_scripts' );
 /*************************************
 *   Activate AJAX
 **************************************/
-function rm_localize_Ajax() { 
+function rm_localize_ajax() { 
 
-	wp_enqueue_script( 'ajax-script', get_stylesheet_directory_uri() . '/js/my-ajax-script.js', array('jquery'), '1.0.0', true );
-	wp_localize_script( 'ajax-script', 'my_ajax_object', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
+	wp_enqueue_script( 'rm_rapid_acct_js', plugins_url( 'js/rapid-acct.js', 	__FILE__ ), array( 'jquery' ), '', true );
+	wp_localize_script( 'rm_rapid_acct_js', 'my_ajax_object', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 
 }
-//add_action('wp_enqueue_scripts', 'rm_localize_Ajax');
+add_action('wp_enqueue_scripts', 'rm_localize_ajax');
 
 
 /*************************************
