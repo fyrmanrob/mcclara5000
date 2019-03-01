@@ -22,7 +22,7 @@ var trackedResource = JSON.parse(allResourcesStr);
 // TRACKING - POPULATE LIST
 **********************************************/ 
 
-$('#set').collapsibleset().trigger('create'); 
+//$('#set').collapsibleset().trigger('create'); 
 
 var resourceListHtml = "";  
 
@@ -64,7 +64,7 @@ var resourceListHtml = "";
             '</div></div>';
     }); // this .each loop
 
-    $( '#set' ).append( resourceListHtml ).collapsibleset('refresh');
+    //$( '#set' ).append( resourceListHtml ).collapsibleset('refresh');
   }); // trackedResource .each loop
   
 
