@@ -183,57 +183,90 @@ $( "#allColumnsContent" ).on( 'click', 'button[id^="addRow"]', function() {
   
       // Get the <ul> ID of the column clicked
         var listCol = "#" + $( this ).siblings( 'ul' ).attr( 'id' );
-          //console.log("listCol = " + listCol);  
+          console.log("listCol = " + listCol);  
 
       // Count the number of rows in the column
         var numRows = $( listCol + ' li' ).length;  
-          //alert( 'There are ' + numRows + ' rows');
+          console.log( 'There are ' + numRows + ' rows');
 
       // Get the ID of the last <li> element
         var lastLi_ID = "#" + $( listCol + ' li:last-child' ).attr( 'id' );
-          //console.log( 'lastLi_ID = ' + lastLi_ID );
+          console.log( 'lastLi_ID = ' + lastLi_ID );
 
       // Get the colNum of the clicked Del button 
         var delColNum = parseInt( listCol.slice(8) );
-          //console.log( 'delColNum after splice(8): ' + delColNum );
+          console.log( 'delColNum after splice(8): ' + delColNum );
 
-        if ( confirmDelRow() ){
+      // Activate confirmation modal window
+        response=null;
 
-              // Delete Row Logic
-                // If more than 2 rows- delete row
-            if ( numRows > 2 ) {
+        $('<div></div>').appendTo('body')
+          .dialog({
+              modal: true, title: 'Delete row?', zIndex: 10000, autoOpen: true,
+              width: 'auto', resizable: false,
+              buttons: {
+                  Yes: function () {                   
+                          // Delete Row Logic
+                              // If more than 2 rows- delete row
+                          console.log( 'numRows at top of func: ' + numRows );
+                          if ( numRows > 2 ) {
+                                // Confirm Delete Row Action
 
-              // Confirm Delete Row Action
+                                // Delete the row
+                                console.log( 'listCol inside func: ' + listCol );
+                                $( listCol + ' ' + lastLi_ID  ).remove();
 
-              //delete the row
-              $( listCol + ' ' + lastLi_ID  ).remove();
+                                // Show the Add Button
+                                $( '#addRow' + delColNum ).css( 'visibility','visible' )
 
-              // Show the Add Button
-              $( '#addRow' + delColNum ).css( 'visibility','visible' )
+                          } else {
+                                // Delete row #2
+                                console.log( 'listCol inside func: ' + listCol );
+                                console.log( 'lastLi_ID inside func: ' + lastLi_ID );
+                                $( listCol + ' ' + lastLi_ID  ).remove();
 
-            } else {
+                                // Hide the proper Del button; Get ID of Del Row button
+                                
+                                $( '#delRow' + delColNum ).css( 'visibility','hidden' );
 
-                  // Delete row #2
-                  $( listCol + ' ' + lastLi_ID  ).remove();
+                                // Display message in proper column list
+                                displayMessage( delColNum, 'Last row cannot be deleted.' );
+                          } 
+                      // Reduce number of rows by 1
+                      numRows = numRows-1;
+                      console.log( 'numRows after reduction: ' + numRows );
 
-                  // Hide the proper Del button; Get ID of Del Row button
-                  var listColDel_btn = "#" + $( this ).attr('id');
-                  $( listColDel_btn ).css( 'visibility','hidden' );
+                      $(this).dialog("close");
+                  },
+                  No: function () { 
+                  
+                      $(this).dialog("close");
+                  }
+              },
+              close: function (event, ui) {
+                  $(this).remove();
+              }
+          });
+        
+        //console.log( 'value of response at the if statement: ' + response );
+        // if ( response ){
 
-                  // Display message in proper column list
-                  displayMessage( delColNum, 'Last row cannot be deleted.' );
-            } 
-        }
+              
+        // }
    }); // #allColumnsContent - Del Row
 
 
 /**********************************************
 // RAPID ACCT - Confirm Delete Row
 **********************************************/
-function confirmDelRow() {
-    var confirmed = confirm("Are you sure you want to delete the row?");
-    return confirmed;
-}
+  //ConfirmDialog('Are you sure');
+
+function ConfirmDialog(){
+
+    
+      
+    }
+
 
 
 /**********************************************
@@ -304,45 +337,95 @@ $( document.body ).on('change', '.listItem', function() {
 
 });
 
+/*********************************************** 
+// FUNCTION - COLOR CODING FOR SELECT OPTIONS
+//
+// This is the exact same function as in app.js.
+// This js file cant reference this function in the other js file.
+//
+************************************************/
+function statusColorCoding( selectBoxID ) {
+    
+    // Get the newly selected Status
+    var newStatus = $( selectBoxID ).val();
+    //console.log( "newStatus = " + newStatus );
+ 
+    // Remove color prior to change
+    $( selectBoxID ).removeClass('green yellow red black blue');
+  
+    // Add new color based on new select value  
+  if ( newStatus === "AVAILABLE" ) {
 
-/**********************************************
-// LISTENTER - FOR RAPID ACCT TITLE CHANGES
-***********************************************/ 
+      $( selectBoxID ).addClass('green');
+
+  } else {  
+
+      if ( newStatus === "RETURNING" || newStatus === "STAGING") {
+
+       $( selectBoxID ).addClass('yellow');
+
+      } else { 
+
+          if ( newStatus === "OFF DUTY" || newStatus === "OOS") {
+
+            $( selectBoxID ).addClass('black');
+
+          } else {
+
+              if ( newStatus === "AT HOSPITAL" ) {
+
+                $( selectBoxID ).addClass('blue');
+
+              } else {
+
+                  $( selectBoxID ).addClass('red');
+             }
+    }}}
+
+    return;
+}
+
+
+/***************************************************
+// LISTENTER - FOR RAPID ACCT COLUMN TITLE CHANGES
+****************************************************/ 
 $( document ).on('change', '[id^="listTitle"]', function() {
 
       // Get the ID of the updated input box
-          var updatedTitleID = '#' + $( this ).attr( 'id' );
-          //console.log( updatedTitleID );
+          var updatedColumnTitleID = '#' + $( this ).attr( 'id' );
+          console.log( 'updatedColumnTitleID: ' + updatedColumnTitleID );
+
       // Store the updated information
-          var updatedTitleText = $( this ).val();
-          //console.log( updatedTitleText );
+          var updatedColumnTitle = $( this ).val();
+          console.log( 'updatedColumnTitle: ' + updatedColumnTitle );
+
       // Update record in database
-          $.ajax({
-                type: 'POST',
-                dataType: 'text',
-                url: my_ajax_object.ajaxurl,
-                data: {
-                    updatedTitleID: updatedTitleID,
-                    updatedTitleText: updatedTitleText,
-                    action: 'update_listTitle_text'
-                },
-                success: function ( response ) {
+            $.ajax({
+                  type: 'POST',
+                  dataType: 'text',
+                  url: my_ajax_object.ajax_url,                 
+                  data: {
+                      ra_column_title_ID: updatedColumnTitleID,
+                      ra_column_title: updatedColumnTitle,
+                      action: 'ra_update_column_title'
+                  },
+                  success: function ( response ) {
 
-                    console.log( 'Updated successfully.');
+                      console.log( 'Updated successfully.');
 
-                 // Remove focus so JS will work properly
-                    $( updatedTitleID ).trigger('blur');
-                },
-                error: function ( error ) {
+                  },
+                  error: function ( error ) {
+                      console.log( 'Updated NOT successful.');
+                  }
 
-                }
-          });
+           }); // ajax 
+
 });
 
 
-/**********************************************
-// LISTENTER - FOR RAPID ACCT INPUT CHANGES
-***********************************************/ 
+/****************************************************
+// LISTENTER - FOR RAPID ACCT RESOURCE NAME CHANGES
+*****************************************************/ 
 
 $( document ).on('change', '[id^="ra_resource"]', function() {
 
@@ -353,26 +436,7 @@ $( document ).on('change', '[id^="ra_resource"]', function() {
           var updatedResourceName = $( this ).val();
 
       // Update record in database
-          $.ajax({
-                type: 'POST',
-                dataType: 'text',
-                url: my_ajax_object.ajaxurl,
-                data: {
-                    updatedInpID: updatedInpID,
-                    updatedResourceName: updatedResourceName,
-                    action: 'update_input_text'
-                },
-                success: function ( response ) {
 
-                    console.log( 'Updated successfully.');
-
-                 // Remove focus so JS will work properly
-                    $( updatedInpID ).trigger('blur');
-                },
-                error: function ( error ) {
-
-                }
-          });
 });
 
 
@@ -380,94 +444,74 @@ $( document ).on('change', '[id^="ra_resource"]', function() {
 // LISTENTER - FOR RAPID ACCT STATUS REQUESTS
 ***********************************************/ 
 
-$( document ).on('change', '[id^="ra_status"]', function() {
+ $( document ).on('change', '[id^="ra_status"]', function() {
 
       // Get ColNum of clicked select box (for message box display only)
           var colNum = parseInt( $( this ).parent().parent().parent().attr( 'id' ).slice(6) );
             //console.log( 'colNum: ' ); console.log( colNum );
+
       // Get the ID of the clicked select box
-          var clickedStatusID = '#' + $( this ).attr( 'id' );  
-            //console.log( 'clickedStatusID: ' ); console.log( clickedStatusID );
+          var selectBoxID = '#' + $( this ).attr( 'id' );  
+            console.log( 'selectBoxID: ' + selectBoxID );
+
       // Get the requested Status change
           var statusRequested = $( this ).val();
-            //console.log( 'statusRequested: ' ); console.log( statusRequested );
-      // Get the current status from the database.
-          $.ajax({
-                type: 'POST',
-                dataType: 'text',
-                url: my_ajax_object.ajaxurl,
-                data: {
-                    clickedStatusID: clickedStatusID,
-                    statusRequested: statusRequested,
-                    action: 'validate_status_change'
-                },
-                success: function ( response ) {
+            console.log( 'statusRequested: ' + statusRequested );
 
-                    // If response has Invalid in it, then change the requested status back to the previous status
-                    var prevStatus = response.slice(7);                    
-                      //console.log( 'prevStatus: ' ); console.log( prevStatus );
-                    if ( !response ) {
+      // Get the current status from the database to verify it's an acceptable change request
+          var currentStatus = 'OFF DUTY'; //status from database
 
-                         console.log( 'Status updated successfully.' );
+      // Call the function to verify the status request
+          requestedStatusCheck( selectBoxID, currentStatus, statusRequested );
 
-                    } else {
-
-                        // Add error msg styling to message box
-                        $( '#msgBox' + colNum ).addClass('invalidStatusMsgBox');
-                        console.log( 'Invalid status change.' );
-
-                        $( clickedStatusID ).val( prevStatus );
-
-                        statusColorCoding( clickedStatusID ); // Re-color code status box                    
-
-                        // Disply error message
-                        displayMessage( colNum, 'Invalid status change.' );
-
-                    }
-                      // Remove focus so JS will work properly
-                        $( clickedStatusID ).trigger('blur');
-
-                },
-                error: function ( error ) {
-                      alert( 'Error: ' + error );
-                }
-          }); // ajax call
 }); // on change
 
 /****************************************************
 // FUNCTION - FOR RAPID ACCT STATUS CHANGE REQUESTS
 !!! Must remain a function so that other pages can use it !!!
 *****************************************************/ 
-// function requestedStatusCheck( clickedStatusID, statusRequested ) {
+function requestedStatusCheck( selectBoxID, currentStatus, statusRequested ) {
 
-// console.log( 'clickedStatusID in requestedStatusCheck func: ' + clickedStatusID );
-// console.log( 'currentStatus in database: ' + currentStatus );
-// console.log( 'statusRequested in requestedStatusCheck func: ' + statusRequested );
+console.log( 'clickedSelectID in requestedStatusCheck func: ' + selectBoxID );
+console.log( 'currentStatus in database: ' + currentStatus );
+console.log( 'statusRequested in requestedStatusCheck func: ' + statusRequested );
 
-//           // Check the validity of the request
-//             if ( currentStatus == 'AVAILABLE' && statusRequested == 'ENROUTE' ) {
+          // Check the validity of the request
+            if ( currentStatus == 'OFF DUTY' && statusRequested == 'AVAILABLE' ) {
 
-//                // Update status in database                
+               // Allow the requested status to change
+        
 
-//             }
+               // Update status in database                
 
-//             else if ( currentStatus == 'ENROUTE' && statusRequested == 'ON SCENE' ){
+            } else if ( currentStatus == 'AVAILABLE' && statusRequested == 'ENROUTE' ) {
 
-//                 // Update status in database
+               // Allow the requested status to change
+        
+
+               // Update status in database                
+
+            }
+
+            else if ( currentStatus == 'ENROUTE' && statusRequested == 'ON SCENE' ) {
+
+                // Allow the requested status to change
+
+                // Update status in database
                 
 
-//                 // Remove focus so JS will work properly
-//                 $( clickedStatusID ).trigger('blur');
+                // Remove focus so JS will work properly
+                $( selectBoxID ).trigger('blur');
 
-//             }
+            }
 
-//             else {
-//                 console.log( 'Invalid Status');
-//                 $( clickedStatusID ).trigger('blur');
+            else {
+                console.log( 'Invalid Status');
+                $( selectBoxID ).trigger('blur');
 
-//             }            
+            }            
 
-// } // function
+} // function
 
 
 
@@ -548,87 +592,42 @@ window.onload = addStatusOptions( 0 ), hideDel( 0 );
 /*************************************************  
 // RAPID ACCOUNTABILITY AUTO-POPULATE LIST TITLES
 **************************************************/ 
-$.ajax({
-      type: 'GET',
-      dataType: 'json',
-      url: my_ajax_object.ajaxurl,
-      data: {
-          action: 'get_rapidStatus_listTitles'
-      },
-      success: function ( data ) {
+    // $.ajax({
+    //       type: 'GET',
+    //       dataType: 'json',
+    //       url: my_ajax_object.ajaxurl,
+    //       data: {
+    //           action: 'get_rapidStatus_listTitles'
+    //       },
+    //       success: function ( data ) {
 
-        $.each( data, function( key, resource ) {
+    //         $.each( data, function( key, resource ) {
 
-          // Loop through individual resource establish vars for data
-            var listTitleID   = resource.ra_listTitleID;
-            var listTitleText = resource.ra_listTitleText;
+    //           // Loop through individual resource establish vars for data
+    //             var listTitleID   = resource.ra_listTitleID;
+    //             var listTitleText = resource.ra_listTitleText;
 
-          // Establish which column the resource belongs in
-            // Slice off the colNum from the resourceID to get proper ColNum
-            var listIDNum      = parseInt( listTitleID.slice(12) );
-            //console.log( 'resIDNum = ' + resIDNum );
+    //           // Establish which column the resource belongs in
+    //             // Slice off the colNum from the resourceID to get proper ColNum
+    //             var listIDNum      = parseInt( listTitleID.slice(12) );
+    //             //console.log( 'resIDNum = ' + resIDNum );
 
-            var belongsColNum = Math.floor( listIDNum/20 );
-            //console.log( 'belongsColNum: ' + belongsColNum );
+    //             var belongsColNum = Math.floor( listIDNum/20 );
+    //             //console.log( 'belongsColNum: ' + belongsColNum );
 
-            var colToCheck = '#colNum' + belongsColNum;
+    //             var colToCheck = '#colNum' + belongsColNum;
 
-          // Insert resource
-            $( listTitleID ).val( listTitleText );
-            //console.log( 'resourceID: ' + resourceID );
+    //           // Insert resource
+    //             $( listTitleID ).val( listTitleText );
+    //             //console.log( 'resourceID: ' + resourceID );
 
-        }); // .each
-      },
-      error: function ( error ) {
-          alert ( 'AJAX experienced an error. No data loaded.' );
-      }
-  });
+    //         }); // .each
+    //       },
+    //       error: function ( error ) {
+    //           alert ( 'AJAX experienced an error. No data loaded.' );
+    //       }
+ // });
 
-
-/*********************************************** 
-// FUNCTION - COLOR CODING FOR SELECT OPTIONS
-//
-// This is the exact same function as in app.js.
-// This js file cant reference this function in the other js file.
-//
-************************************************/
-function statusColorCoding( selectBoxID ) {
-    
-    var newStatus = $( selectBoxID ).val();
-    //console.log( "newStatus = " + newStatus );
- 
-    // Remove color prior to change
-    $( selectBoxID ).removeClass('green yellow red black blue');
-  
-    // Add new color based on new select value  
-  if ( newStatus === "AVAILABLE" ) {
-
-      $( selectBoxID ).addClass('green');
-
-  } else {  
-
-      if ( newStatus === "RETURNING" || newStatus === "STAGING") {
-
-       $( selectBoxID ).addClass('yellow');
-
-      } else { 
-
-          if ( newStatus === "OFF DUTY" || newStatus === "OOS") {
-
-            $( selectBoxID ).addClass('black');
-
-          } else {
-
-              if ( newStatus === "AT HOSPITAL" ) {
-
-                $( selectBoxID ).addClass('blue');
-
-              } else {
-
-                  $( selectBoxID ).addClass('red');
-             }
-    }}}
-}
 
 }); // document ready
 
